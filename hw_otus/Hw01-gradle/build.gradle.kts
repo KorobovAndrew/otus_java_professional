@@ -8,7 +8,6 @@ plugins {
 dependencies {
     implementation ("com.google.guava:guava")
 }
-
 tasks {
     named<ShadowJar>("shadowJar") {
         archiveBaseName.set("gradleHelloWorld")
@@ -23,3 +22,4 @@ tasks {
         dependsOn(shadowJar)
     }
 }
+
