@@ -1,18 +1,18 @@
 package homework;
 
-@SuppressWarnings({
-    "java:S1186",
-    "java:S1135",
-    "java:S1172"
-}) // при выполнении ДЗ эту аннотацию надо удалить
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class CustomerReverseOrder {
 
     // todo: 2. надо реализовать методы этого класса
     // надо подобрать подходящую структуру данных, тогда решение будет в "две строчки"
-
-    public void add(Customer customer) {}
+    private Deque<Customer> customers = new ArrayDeque<>();
+    public void add(Customer customer) {
+        customers.add(customer);
+    }
 
     public Customer take() {
-        return null; // это "заглушка, чтобы скомилировать"
+        return customers.pollLast();
     }
 }

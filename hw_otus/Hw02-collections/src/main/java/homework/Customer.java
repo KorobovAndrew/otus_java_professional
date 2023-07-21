@@ -1,6 +1,5 @@
 package homework;
 
-@SuppressWarnings({"java:S1135"}) // при выполнении ДЗ эту аннотацию надо удалить
 public class Customer {
     private final long id;
     private String name;
@@ -46,16 +45,17 @@ public class Customer {
 
         Customer customer = (Customer) o;
 
-        if (id != customer.id) return false;
-        if (scores != customer.scores) return false;
-        return name != null ? name.equals(customer.name) : customer.name == null;
+        return id == customer.id;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (int) (scores ^ (scores >>> 32));
-        return result;
+        return (int) (id ^ (id >>> 32));
+    }
+
+    public static Customer copyOf(Customer customer){
+        return new Customer(customer.getId(),
+                customer.getName(),
+                customer.getScores());
     }
 }
