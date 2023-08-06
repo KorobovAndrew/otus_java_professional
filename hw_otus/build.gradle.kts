@@ -82,13 +82,13 @@ subprojects {
         options.compilerArgs.addAll(listOf("-Xlint:all,-serial,-processing"))
     }
 
-    apply<name.remal.gradle_plugins.sonarlint.SonarLintPlugin>()
-    apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
-    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-        java {
-            googleJavaFormat("1.16.0").aosp()
-        }
-    }
+//    apply<name.remal.gradle_plugins.sonarlint.SonarLintPlugin>()
+//    apply<com.diffplug.gradle.spotless.SpotlessPlugin>()
+//    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+//        java {
+//            googleJavaFormat("1.16.0").aosp()
+//        }
+//    }
 
     plugins.apply(fr.brouillard.oss.gradle.plugins.JGitverPlugin::class.java)
     extensions.configure<fr.brouillard.oss.gradle.plugins.JGitverPluginExtension> {
@@ -111,14 +111,14 @@ subprojects {
     }
 }
 
-tasks {
-    val managedVersions by registering {
-        doLast {
-            project.extensions.getByType<DependencyManagementExtension>()
-                .managedVersions
-                .toSortedMap()
-                .map { "${it.key}:${it.value}" }
-                .forEach(::println)
-        }
-    }
-}
+//tasks {
+//    val managedVersions by registering {
+//        doLast {
+//            project.extensions.getByType<DependencyManagementExtension>()
+//                .managedVersions
+//                .toSortedMap()
+//                .map { "${it.key}:${it.value}" }
+//                .forEach(::println)
+//        }
+//    }
+//}
