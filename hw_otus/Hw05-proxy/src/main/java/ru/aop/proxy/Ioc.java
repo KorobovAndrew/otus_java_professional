@@ -42,8 +42,8 @@ public class Ioc {
                     .filter(m -> m.getName().equals(method.getName()))
                     .filter(m -> Arrays.equals(m.getParameterTypes(), method.getParameterTypes()))
                     .findAny()
-                    .ifPresent(x -> System.out.printf("executed method: %s, params: %s\n",
-                            method.getName(),
+                    .ifPresent(m -> System.out.printf("executed method: %s, params: %s\n",
+                            m.getName(),
                             Arrays.toString(args)));
             return method.invoke(testLogging, args);
         }
