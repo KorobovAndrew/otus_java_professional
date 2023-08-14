@@ -8,11 +8,11 @@ public class TestLoggingImpl implements TestLogging {
     public void calculation(int param) {
     }
 
-    @Log
     @Override
     public void calculation(int param1, String param2) {
     }
 
+    @Log
     @Override
     public void test(int param1, int param2) {
     }
