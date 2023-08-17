@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Ioc {
 
@@ -31,8 +30,8 @@ public class Ioc {
             this.testLogging = testLogging;
             this.loggingMethods = new HashMap<>();
 
-            for(var method: testLogging.getClass().getDeclaredMethods()){
-                if(!method.isAnnotationPresent(Log.class))
+            for (var method : testLogging.getClass().getDeclaredMethods()) {
+                if (!method.isAnnotationPresent(Log.class))
                     continue;
                 var methodName = method.getName();
                 loggingMethods.putIfAbsent(methodName, new ArrayList<>());
@@ -42,14 +41,14 @@ public class Ioc {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if(methodPresent(loggingMethods, method))
+            if (methodPresent(loggingMethods, method))
                 System.out.printf("executed method: %s, params: %s\n", method.getName(), Arrays.toString(args));
             return method.invoke(testLogging, args);
         }
 
-        private boolean methodPresent(Map<String, List<Class<?>[]>> loggingMethods, Method method){
+        private boolean methodPresent(Map<String, List<Class<?>[]>> loggingMethods, Method method) {
             var isPresent = false;
-            for(var parameters : loggingMethods.get(method.getName()))
+            for (var parameters : loggingMethods.get(method.getName()))
                 if (Arrays.equals(parameters, method.getParameterTypes())) {
                     isPresent = true;
                     break;
