@@ -26,7 +26,7 @@ public class Ioc {
 
     static class TestLoggingInvocationHandler implements InvocationHandler {
         private final TestLogging testLogging;
-        private final Map<String, Object[]> loggingMethods;
+        private final Map<String, Class<?>[]> loggingMethods;
 
         TestLoggingInvocationHandler(TestLogging testLogging) {
             this.testLogging = testLogging;
