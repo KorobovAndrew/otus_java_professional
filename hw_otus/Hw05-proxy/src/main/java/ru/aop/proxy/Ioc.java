@@ -5,7 +5,9 @@ import ru.aop.annotations.Log;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Ioc {
 
@@ -24,36 +26,27 @@ public class Ioc {
 
     static class TestLoggingInvocationHandler implements InvocationHandler {
         private final TestLogging testLogging;
-        private final Map<String, List<Class<?>[]>> loggingMethods;
+        private final Set<Method> loggingMethods;
 
         TestLoggingInvocationHandler(TestLogging testLogging) {
             this.testLogging = testLogging;
-            this.loggingMethods = new HashMap<>();
-
-            for (var method : testLogging.getClass().getDeclaredMethods()) {
-                if (!method.isAnnotationPresent(Log.class))
-                    continue;
-                var methodName = method.getName();
-                loggingMethods.putIfAbsent(methodName, new ArrayList<>());
-                loggingMethods.get(methodName).add(method.getParameterTypes());
-            }
+            this.loggingMethods = Arrays.stream(testLogging.getClass().getDeclaredMethods())
+                    .filter(method -> method.isAnnotationPresent(Log.class))
+                    .collect(Collectors.toUnmodifiableSet());
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if (methodPresent(loggingMethods, method))
+            if (methodPresent(loggingMethods, method)) {
                 System.out.printf("executed method: %s, params: %s\n", method.getName(), Arrays.toString(args));
+            }
             return method.invoke(testLogging, args);
         }
 
-        private boolean methodPresent(Map<String, List<Class<?>[]>> loggingMethods, Method method) {
-            var isPresent = false;
-            for (var parameters : loggingMethods.get(method.getName()))
-                if (Arrays.equals(parameters, method.getParameterTypes())) {
-                    isPresent = true;
-                    break;
-                }
-            return isPresent;
+        private boolean methodPresent(Set<Method> loggingMethods, Method method) {
+            return loggingMethods.stream()
+                    .filter(m -> m.getName().equals(method.getName()))
+                    .anyMatch(m -> Arrays.equals(m.getParameterTypes(), method.getParameterTypes()));
         }
     }
 }
