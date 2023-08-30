@@ -46,7 +46,7 @@ public class App {
         atm.displayBalance();
         System.out.println("____________________________");
 
-        //10 x 1, 50 x 1, 100 x 0, sum = 110
+        //10 x 1, 50 x 1, 100 x 0, sum = 60
         try {
             atm.getCash(110);
         } catch (RuntimeException e) {
