@@ -26,7 +26,7 @@ public class Atm implements AtmFinancialOperations {
     }
 
     @Override
-    public void getCash(int amount) throws RuntimeException {
+    public int getCash(int amount) throws RuntimeException {
         var givingBanknotes = new HashMap<Denominations, Integer>();
         for (var denomination : Denominations.values()) {
             givingBanknotes.put(denomination, 0);
@@ -50,6 +50,7 @@ public class Atm implements AtmFinancialOperations {
         } else {
             throw new RuntimeException("unable to pay the requested amount");
         }
+        return amount;
     }
 
     @Override
